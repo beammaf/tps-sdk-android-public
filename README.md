@@ -1,13 +1,13 @@
 ### TPS SDK - Android Guide
 
-The TPS SDK is for interacting with the Beam Wallet platform to add, update or remove vehicles for integrated Ticketless Parking System. 
+The TPS SDK is for interacting with the Beam Wallet platform to add, update or remove vehicles for integrated Ticketless Parking System.
 
 In order to use SDK you must be a registered developer with a provisioned API key.
 
 ## Requirements
 * SDK Supports min api level 18.
 * SDK Requires Java 8.
-* BAPFES Authentication token. 
+* BAPFES Authentication token.
 
 ## Integration
 * Java 8+ support should be added to project. To do that below code should be added to project level gradle file.
@@ -35,10 +35,10 @@ In order to use SDK you must be a registered developer with a provisioned API ke
 
 
 
- 
+
         implementation "io.reactivex.rxjava2:rxjava:$RX_VERSION"
         implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
-    
+
         /* Networking */
         implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
         implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
@@ -73,7 +73,7 @@ void start(TPSServer server, TPSTokenProvider provider, BeamSdkInitializationLis
 
 
 
-Example Usage: 
+Example Usage:
 ```java
 
 TPSSdk.getInstance().start(TPSServer.STAGING,this,new BeamSdkInitializationListener() {
@@ -96,32 +96,32 @@ TPSSdk.getInstance().start(TPSServer.STAGING,this,new BeamSdkInitializationListe
 
 ```
 
-## TPSSDK 
+## TPSSDK
 * All sdk functions can be accessed from TPSSDK object. It's a simple interface to access functionalities of TPS SDK
 
 ```java
   public interface TPSSdk {
-  
+
     String LOG_TAG = "TPS-SDK";
-  
+
     static TPSSdk getInstance() {
       return TPSSdkImpl.getInstance();
     }
-  
+
     void start(TPSServer server, TPSTokenProvider provider, BeamSdkInitializationListener listener);
-  
+
     void getRegisteredVehicles(TPSCallback<List<Vehicle>> listener);
-  
+
     void addVehicle(Vehicle model, TPSCallback<Vehicle> listener);
-  
+
     void updateVehicle(Vehicle model, TPSCallback<Vehicle> listener);
-  
+
     void removeVehicle(Vehicle model, TPSCallback<Void> listener);
 
     void getTransactions(Vehicle vehicle,int page, Integer perPage, TPSCallback<List<Transaction>> listener);
 
     void getTransactions(int page, Integer perPage,TPSCallback<List<Transaction>> listener);
-  
+
     void clear();
   }
 
@@ -148,7 +148,7 @@ public enum TpsServer {
 ```java
 public class Vehicle implements Parcelable {
 
-    
+
         private int id;
         private Plate plate;
         private String fundingSourceUUID;
@@ -162,17 +162,27 @@ public class Vehicle implements Parcelable {
 }
 ```
 
+#### Plate
+```java
+public class Plate implements Parcelable{
+    private String code;
+    private String source;
+    private String number;
+    private String country;
+}
+```
+
 #### Get Registered Vehicles
 ```java
 TPSSDK.getInstance().getRegisteredVehicles(new TPSCallback<List<Vehicle>>() {
                 @Override
                 public void onSuccess(List<Vehicle> result) {
-                
+
                 }
 
                 @Override
                 public void onError(TPSError error) {
-                 
+
                 }
             });
 ```
@@ -182,12 +192,12 @@ TPSSDK.getInstance().getRegisteredVehicles(new TPSCallback<List<Vehicle>>() {
 TPSSDK.getInstance().addVehicle(vehicle, new TPSCallback<Vehicle>() {
                     @Override
                     public void onSuccess(Vehicle result) {
-                      
+
                     }
 
                     @Override
                     public void onError(TPSError error) {
-                     
+
                     }
                 });
 ```
@@ -197,28 +207,28 @@ TPSSDK.getInstance().addVehicle(vehicle, new TPSCallback<Vehicle>() {
 TPSSDK.getInstance().updateVehicle(vehicle, new TPSCallback<Vehicle>() {
                 @Override
                 public void onSuccess(Vehicle result) {
-                   
+
                 }
 
                 @Override
                 public void onError(TPSError error) {
-                
+
                 }
             });
 ```
-* The function takes a BWVehicle and updates the information related to TPSSDK.id 
+* The function takes a BWVehicle and updates the information related to TPSSDK.id
 
 #### Remove Vehicle
 ```java
 TPSSDK.getInstance().removeVehicle(vehicle, new TPSCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
-           
+
                 }
 
                 @Override
                 public void onError(TPSError error) {
-               
+
                 }
             });
 ```
@@ -229,12 +239,12 @@ TPSSDK.getInstance().removeVehicle(vehicle, new TPSCallback<Void>() {
 TPSSDK.getInstance().getTransactions(vehicle, page, perPage, new TPSCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
-           
+
                 }
 
                 @Override
                 public void onError(TPSError error) {
-               
+
                 }
             });
 ```
@@ -245,12 +255,12 @@ TPSSDK.getInstance().getTransactions(vehicle, page, perPage, new TPSCallback<Voi
 TPSSDK.getInstance().getTransactions(page, perPage, new TPSCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
-           
+
                 }
 
                 @Override
                 public void onError(TPSError error) {
-               
+
                 }
             });
 ```
@@ -258,4 +268,3 @@ TPSSDK.getInstance().getTransactions(page, perPage, new TPSCallback<Void>() {
 
 ## Version
 * 1.2
-
